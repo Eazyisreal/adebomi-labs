@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 
 const madeTommySoft = localFont({
   src: [
+    { path: "../../public/fonts/made-tommy-soft-light.otf", weight: "300", style: "normal" },
     { path: "../../public/fonts/made-tommy-soft-regular.otf", weight: "400", style: "normal" },
     { path: "../../public/fonts/made-tommy-soft-medium.otf", weight: "500", style: "normal" },
     { path: "../../public/fonts/made-tommy-soft-bold.otf", weight: "700", style: "normal" },

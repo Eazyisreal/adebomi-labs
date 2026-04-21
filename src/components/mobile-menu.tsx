@@ -12,13 +12,20 @@ type MobileMenuProps = {
 export function MobileMenu({ onClose }: MobileMenuProps) {
   return (
     <div className="fixed inset-0 z-40 bg-[#F7F7F7]">
-      <div className="mx-auto flex h-full w-full max-w-md flex-col gap-6">
+      <div className="mx-auto flex h-full w-full max-w-4xl flex-col gap-6 xl:max-w-md">
         <div className="px-3 py-3">
           <div className="flex w-full items-center justify-between">
-            <SiteLogo className="text-base leading-6 text-[#0D1B2A]" />
+            <Link
+              aria-label="The Adebomi Lab homepage"
+              className="text-[#0D1B2A] transition-opacity duration-300 ease-out active:opacity-70"
+              href="/"
+              onClick={onClose}
+            >
+              <SiteLogo className="text-[#0D1B2A]" />
+            </Link>
             <button
               aria-label="Close navigation menu"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full"
               onClick={onClose}
               type="button"
             >

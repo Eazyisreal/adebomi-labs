@@ -19,7 +19,17 @@ export function SiteFooter() {
       <div className="relative z-10 flex flex-col items-center gap-4">
         <div className="flex w-full flex-col items-center justify-center gap-6">
           <div className="flex flex-col items-center gap-6">
-            <SiteLogo className="text-center text-[1.625rem] leading-[2.4094rem] text-white" />
+            <Link
+              aria-label="The Adebomi Lab homepage"
+              className="text-white transition-opacity duration-300 ease-out active:opacity-70"
+              href="/"
+            >
+              <SiteLogo
+                className="text-center text-white"
+                labelClassName="text-[2.4094rem] leading-[2.4094rem]"
+                subLabelClassName="text-[1.2047rem] leading-[2.4094rem]"
+              />
+            </Link>
             <div className="flex items-center gap-5 px-2">
               <Link aria-label="LinkedIn" href="#">
                 <Image alt="" aria-hidden height={24} src="/assets/icon-linkedin.svg" width={24} />

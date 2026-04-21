@@ -21,10 +21,10 @@ export function SiteHeader() {
         <div className="mx-auto flex min-h-20 w-full max-w-screen-xl items-center justify-between gap-4 bg-transparent px-4 shadow-[0_0.125rem_3.25rem_rgba(0,0,0,0.04)] md:px-20">
           <Link
             aria-label="The Adebomi Lab homepage"
-            className="text-lg leading-6 text-white"
+            className="text-white transition-opacity duration-300 ease-out active:opacity-70"
             href="/"
           >
-            <SiteLogo className="text-2xl" />
+            <SiteLogo className="text-white" />
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-5 xl:flex">
