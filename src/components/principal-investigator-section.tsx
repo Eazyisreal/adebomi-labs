@@ -30,7 +30,7 @@ export function PrincipalInvestigatorSection() {
               alt="Principal investigator portrait"
               className="h-full w-full object-cover"
               height={720}
-              src="/assets/principal-investigator.png"
+              src="/assets/principal-investigator.webp"
               width={1080}
             />
           </div>

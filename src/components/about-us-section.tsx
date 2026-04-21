@@ -25,7 +25,7 @@ export function AboutUsSection() {
               alt="Adebomi lab researchers in discussion"
               className="h-full w-full object-cover"
               height={1080}
-              src="/assets/about-us-image-5fb531.png"
+              src="/assets/about-us-image-5fb531.webp"
               width={1021}
             />
           </div>

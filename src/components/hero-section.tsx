@@ -7,7 +7,7 @@ export function HeroSection() {
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('/assets/hero-background.png')",
+          "linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('/assets/hero-background.webp')",
       }}
     >
       <SiteHeader />
