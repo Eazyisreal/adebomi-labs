@@ -20,9 +20,46 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adebomilab.com";
+
 export const metadata: Metadata = {
-  title: "The Adebomi Lab",
-  description: "Designing biomolecules for therapeutic innovation.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "The Adebomi Lab",
+    template: "%s | The Adebomi Lab",
+  },
+  description:
+    "Designing biomolecules for therapeutic innovation through chemistry, biology, and artificial intelligence.",
+  applicationName: "The Adebomi Lab",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "The Adebomi Lab",
+    title: "The Adebomi Lab",
+    description:
+      "Designing biomolecules for therapeutic innovation through chemistry, biology, and artificial intelligence.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Adebomi Lab",
+    description:
+      "Designing biomolecules for therapeutic innovation through chemistry, biology, and artificial intelligence.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
