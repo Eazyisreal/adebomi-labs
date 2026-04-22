@@ -80,11 +80,15 @@ CI should run lint, tests, and build before merge/deploy.
 
 ## Vercel Configuration
 
-The project includes `vercel.json` with a route rule:
+This project uses Next.js App Router defaults on Vercel without custom route
+fallback overrides, so framework route handling works as expected for:
 
-- Any non-file path (`/[^.]+`) resolves to `/` with status `200`.
-
-This can be useful for SPA-style fallback routing behavior at the edge.
+- `/`
+- `/research`
+- `/publications`
+- `/team`
+- `/collaborations`
+- `/join-lab`
 
 ## Design System Notes
 
