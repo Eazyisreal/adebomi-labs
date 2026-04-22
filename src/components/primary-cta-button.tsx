@@ -1,12 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-type PrimaryCtaButtonProps = {
-  href?: string;
-  label: string;
-  className?: string;
-  arrowClassName?: string;
-};
+import type { PrimaryCtaButtonProps } from "@/types/component-props";
 
 export function PrimaryCtaButton({
   href = "#",

@@ -4,10 +4,7 @@ import Link from "next/link";
 import { PrimaryCtaButton } from "@/components/primary-cta-button";
 import { SiteLogo } from "@/components/site-logo";
 import { PRIMARY_NAV_ITEMS } from "@/lib/navigation";
-
-type MobileMenuProps = {
-  onClose: () => void;
-};
+import type { MobileMenuProps } from "@/types/component-props";
 
 export function MobileMenu({ onClose }: MobileMenuProps) {
   return (

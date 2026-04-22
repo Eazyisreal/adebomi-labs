@@ -1,8 +1,4 @@
-type SiteLogoProps = {
-  className?: string;
-  labelClassName?: string;
-  subLabelClassName?: string;
-};
+import type { SiteLogoProps } from "@/types/component-props";
 
 export function SiteLogo({
   className = "",
