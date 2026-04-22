@@ -9,6 +9,7 @@ export type PrimaryCtaButtonProps = {
 
 export type MobileMenuProps = {
   onClose: () => void;
+  currentPath: string;
 };
 
 export type SiteLogoProps = {
