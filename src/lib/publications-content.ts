@@ -1,4 +1,6 @@
-export const PUBLICATIONS = [
+import type { Publication } from "@/types/publications";
+
+export const PUBLICATIONS: Publication[] = [
   {
     title: "CyClick Chemistry for the Synthesis of Cyclic Peptides.",
     citation:
@@ -68,4 +70,4 @@ export const PUBLICATIONS = [
     citation:
       "Sriram, M.; Adebomi, V.; Muneeswaran, Z. P.; Raj, M. Bioinspired Nitroalkylation for Selective Peptide Modification and Peptide Stapling. Angew. Chem. Int. Ed. 2019, 59, 2793-2801.",
   },
-] as const;
+];

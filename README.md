@@ -1,110 +1,111 @@
-# Project Title Template
+# Adebomi Lab Website
 
-This is an organizational template for building modern, robust web applications using the Next.js framework. It comes pre-configured with a comprehensive suite of tools to ensure code quality, consistency, and a highly efficient developer workflow.
+Production-ready Next.js implementation of the Adebomi Lab website, built as a frame-by-frame Figma replica with responsive behavior for desktop and mobile.
+
+## Overview
+
+This project includes:
+
+- Multi-page marketing site built with Next.js App Router.
+- Reusable section components for each page.
+- Shared content/constants and dedicated type modules.
+- Figma-aligned typography, gradients, buttons, and form states.
+- Optimized image assets (WebP) in `public/assets`.
 
 ## Tech Stack
 
-This template is built with a modern, industry-standard tech stack:
+- Framework: Next.js 15 (App Router)
+- Language: TypeScript
+- UI: React 19 + Tailwind CSS
+- Images: `next/image` + `sharp`
+- Testing: Jest + React Testing Library
+- Lint/format: ESLint + Prettier
+- Git hooks: Husky + lint-staged + commitlint
 
-- **Framework**: [Next.js](httpss://nextjs.org/) (with App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Testing**: [Jest](https://jestjs.io/) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- **Linting**: [ESLint](https://eslint.org/)
-- **Formatting**: [Prettier](https://prettier.io/)
-- **Package Manager**: [NPM](https://www.npmjs.com/)
+## Routes
 
----
+Current primary routes:
 
-## Getting Started
+- `/` (Home)
+- `/research`
+- `/publications`
+- `/team`
+- `/collaborations`
+- `/join-lab`
 
-To get started with this template, follow these steps:
+## Project Structure
 
-1.  **Create your repository**: Use this repository as a template on GitHub.
-2.  **Clone the repository**:
-    ```bash
-    git clone <your-new-repository-url>
-    cd <your-repository-name>
-    ```
-3.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-    This command will also automatically run `husky install` to set up the Git hooks.
+Key folders:
 
----
+- `src/app`: Route entry pages (App Router).
+- `src/components`: Reusable UI sections/components.
+- `src/lib`: Shared content/constants.
+- `src/types`: Shared TypeScript types.
+- `public/assets`: Static optimized assets (SVG/WebP).
+- `public/fonts`: Local font files.
 
-## Available Scripts
+## Local Development
 
-In the project directory, you can run the following commands:
+Install dependencies:
 
-### `npm run dev`
+```bash
+npm install
+```
 
-Runs the app in development mode with Turbopack.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits.
+Run dev server:
 
-### `npm run build`
+```bash
+npm run dev
+```
 
-Builds the app for production to the `.next` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
+Open [http://localhost:3000](http://localhost:3000).
 
-### `npm run start`
+## Scripts
 
-Starts a Next.js production server. You should run `npm run build` before this command.
+- `npm run dev`: Start local dev server (Turbopack).
+- `npm run build`: Create production build.
+- `npm run start`: Start production server from build output.
+- `npm run lint`: Run ESLint with autofix.
+- `npm run test`: Run Jest tests.
+- `npm run format`: Run Prettier across the repo.
 
-### `npm run test`
+## Quality Gates
 
-Launches the test runner in interactive watch mode.
+Git hooks run automatically via Husky:
 
-### `npm run lint`
+- Pre-commit: `eslint --fix` + `prettier --write` on staged files.
+- Commit-msg: Conventional Commit validation via commitlint.
 
-Runs ESLint to find and fix problems in your codebase.
+CI should run lint, tests, and build before merge/deploy.
 
-### `npm run format`
+## Vercel Configuration
 
-Formats all files in the project using Prettier.
+The project includes `vercel.json` with a route rule:
 
----
+- Any non-file path (`/[^.]+`) resolves to `/` with status `200`.
 
-## Automated Workflows & Quality Assurance
+This can be useful for SPA-style fallback routing behavior at the edge.
 
-This template is pre-configured with several automated workflows to maintain high code quality and consistency.
+## Design System Notes
 
-### Git Hooks (Husky)
+- Main font family is loaded locally (MADE Tommy Soft variants).
+- Shared CTA button style is reused across pages.
+- Header supports transparent/solid modes and dark/light text mode.
+- Join Lab form fields are config-driven (`src/lib/join-lab-content.ts`), with shared field types in `src/types/join-lab.ts`.
 
-We use [Husky](https://typicode.github.io/husky/) to manage Git hooks. These hooks run automatically before you commit or push code.
+## Deployment
 
-- **Pre-commit**: Before each commit, `lint-staged` will automatically run ESLint and Prettier on only the files you've changed. This ensures no code with linting errors or formatting issues can be committed.
-- **Commit-msg**: Before each commit is finalized, `commitlint` will validate your commit message against the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard. This enforces a clean and readable Git history.
+Typical deployment flow:
 
-### Editor Integration (VS Code)
+1. Run `npm run lint`
+2. Run `npm run test`
+3. Run `npm run build`
+4. Push to `main`
+5. Deploy via Vercel
 
-The `.vscode` directory contains settings and extension recommendations for an optimal developer experience in VS Code, Cursor, and Windsurf.
+## Troubleshooting
 
-- **Recommended Extensions**: You will be prompted to install recommended extensions for ESLint, Prettier, and Tailwind CSS IntelliSense.
-- **Automatic Formatting**: The editor is configured to format your code with Prettier and fix ESLint issues every time you save a file.
-
-### Continuous Integration (GitHub Actions)
-
-The `.github/workflows/ci.yml` file configures a CI pipeline that runs on every push and pull request to the `main` branch. It automatically:
-
-1.  Installs dependencies.
-2.  Builds the project.
-3.  Runs the full test suite.
-4.  Runs the linter.
-
-This ensures that the `main` branch is always in a healthy, deployable state.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Build/type errors: run `npm run build` locally to catch route/type issues.
+- Lint hook failures during commit: fix issues and recommit.
+- Commit message rejection: use Conventional Commit format (for example, `feat: ...`, `fix: ...`).
+- Asset issues: verify file paths under `public/assets` and reference with leading `/assets/...`.
