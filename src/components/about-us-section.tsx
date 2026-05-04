@@ -9,7 +9,7 @@ export function AboutUsSection() {
             <div className="flex flex-col gap-1">
               <p className="text-sm leading-5 text-[#333333] uppercase">About us</p>
               <h2 className="text-[2.5rem] leading-[3rem] tracking-[-0.025em] text-[#0D1B2A]">
-                Intelligent Biomolecular Engineering
+                Biomolecular Engineering
               </h2>
             </div>
             <p className="text-[1.25rem] leading-[1.75rem] font-light tracking-[0rem] text-[#333333]">
