@@ -6,7 +6,10 @@ export function TeamHeroSection() {
       <SiteHeader backgroundMode="solid" overlay={false} textMode="dark" />
 
       <div className="mx-auto flex w-full max-w-screen-xl flex-1 flex-col items-center justify-center px-4 md:px-20">
-        <h1 className="bg-[radial-gradient(circle_at_25%_40%,#2D5D90_0%,#0D1B2A_100%)] bg-clip-text text-center text-[3.5rem] leading-[4rem] font-normal tracking-[-0.0625rem] text-transparent">
+        <h1
+          className="bg-[radial-gradient(circle_at_25%_40%,#2D5D90_0%,#0D1B2A_100%)] bg-clip-text text-center text-[3.5rem] leading-[4rem] font-normal tracking-[-0.0625rem] text-transparent"
+          data-gsap-hero
+        >
           Team Members
         </h1>
       </div>

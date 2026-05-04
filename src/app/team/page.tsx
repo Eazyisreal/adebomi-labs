@@ -30,10 +30,14 @@ export default function TeamPage() {
       <TeamHeroSection />
 
       <main>
-        <TeamProfileSection />
+        <div data-gsap-reveal>
+          <TeamProfileSection />
+        </div>
       </main>
 
-      <SiteFooter />
+      <div data-gsap-footer>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

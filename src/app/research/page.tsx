@@ -31,11 +31,17 @@ export default function ResearchPage() {
       <ResearchHeroSection />
 
       <main>
-        <ResearchFocusSection />
-        <CoreResearchAreasSection />
+        <div data-gsap-reveal>
+          <ResearchFocusSection />
+        </div>
+        <div data-gsap-reveal>
+          <CoreResearchAreasSection />
+        </div>
       </main>
 
-      <SiteFooter />
+      <div data-gsap-footer>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

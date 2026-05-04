@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
+import { SiteAnimations } from "@/components/site-animations";
+import { SiteToaster } from "@/components/site-toaster";
+
 const madeTommySoft = localFont({
   src: [
     { path: "../../public/fonts/made-tommy-soft-light.otf", weight: "300", style: "normal" },
@@ -34,6 +37,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: "/icon",
+    shortcut: "/icon",
+    apple: "/icon",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -42,12 +50,21 @@ export const metadata: Metadata = {
     title: "The Adebomi Lab",
     description:
       "Designing biomolecules for therapeutic innovation through chemistry, biology, and artificial intelligence.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "The Adebomi Lab",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Adebomi Lab",
     description:
       "Designing biomolecules for therapeutic innovation through chemistry, biology, and artificial intelligence.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -70,6 +87,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${madeTommySoft.variable} ${geistMono.variable} antialiased`}>
+        <SiteAnimations />
+        <SiteToaster />
         {children}
       </body>
     </html>

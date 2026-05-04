@@ -15,12 +15,13 @@ export function CoreResearchAreasSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2" data-gsap-stagger>
           {RESEARCH_AREAS.map((area, index) => (
             <article
               className={`flex flex-col gap-[0.8125rem] rounded-2xl bg-white p-3 pb-12 ${
                 index === RESEARCH_AREAS.length - 1 ? "lg:col-span-2" : ""
               }`}
+              data-gsap-item
               key={area.title}
             >
               <div className="h-[15rem] overflow-hidden rounded-2xl bg-[#FAFAFA]">

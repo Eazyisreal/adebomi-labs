@@ -30,10 +30,14 @@ export default function JoinLabPage() {
       <JoinLabHeroSection />
 
       <main>
-        <JoinLabFormSection />
+        <div data-gsap-reveal>
+          <JoinLabFormSection />
+        </div>
       </main>
 
-      <SiteFooter />
+      <div data-gsap-footer>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

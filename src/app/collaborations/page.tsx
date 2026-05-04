@@ -30,10 +30,14 @@ export default function CollaborationsPage() {
       <CollaborationsHeroSection />
 
       <main>
-        <CollaborationsContentSection />
+        <div data-gsap-reveal>
+          <CollaborationsContentSection />
+        </div>
       </main>
 
-      <SiteFooter />
+      <div data-gsap-footer>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

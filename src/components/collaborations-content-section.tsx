@@ -44,10 +44,11 @@ export function CollaborationsContentSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-gsap-stagger>
             {PAST_COLLABORATORS.map((person) => (
               <article
                 className="flex flex-col items-center gap-6 rounded-3xl bg-white px-6 py-8 text-center"
+                data-gsap-item
                 key={person.name}
               >
                 <h3 className="max-w-[16rem] text-[2rem] leading-[2.5rem] tracking-[-0.0313em] break-words whitespace-normal text-[#0D1B2A]">

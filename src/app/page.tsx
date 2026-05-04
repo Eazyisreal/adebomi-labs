@@ -7,6 +7,7 @@ import { PrincipalInvestigatorSection } from "@/components/principal-investigato
 import { ResearchAreasSection } from "@/components/research-areas-section";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkWithUsSection } from "@/components/work-with-us-section";
+import { getHomepageFeaturedPublications } from "@/lib/sanity/publications";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -28,20 +29,34 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const featuredPublications = await getHomepageFeaturedPublications();
+
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
       <HeroSection />
 
       <main>
-        <AboutUsSection />
-        <ResearchAreasSection />
-        <PrincipalInvestigatorSection />
-        <FeaturedResearchSection />
-        <WorkWithUsSection />
+        <div data-gsap-reveal>
+          <AboutUsSection />
+        </div>
+        <div data-gsap-reveal>
+          <ResearchAreasSection />
+        </div>
+        <div data-gsap-reveal>
+          <PrincipalInvestigatorSection />
+        </div>
+        <div data-gsap-reveal>
+          <FeaturedResearchSection publications={featuredPublications} />
+        </div>
+        <div data-gsap-reveal>
+          <WorkWithUsSection />
+        </div>
       </main>
 
-      <SiteFooter />
+      <div data-gsap-footer>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

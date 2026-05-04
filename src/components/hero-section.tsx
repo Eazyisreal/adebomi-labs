@@ -5,32 +5,36 @@ import { SiteHeader } from "@/components/site-header";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden" data-gsap-hero-section>
       <Image
         alt=""
         aria-hidden
         className="object-cover"
+        data-gsap-hero-bg
         fill
         priority
         quality={70}
         sizes="100vw"
         src="/assets/hero-background.webp"
       />
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/50" data-gsap-hero-overlay />
 
       <div className="relative z-10">
         <SiteHeader />
 
         <div className="mx-auto flex min-h-screen w-full max-w-screen-xl flex-col justify-center px-4 pb-16 md:px-20 md:pb-20 lg:justify-end">
           <div className="flex max-w-4xl flex-col gap-2">
-            <h1 className="bg-[radial-gradient(circle_at_25%_40%,#FFFFFF_0%,#B5B5B5_100%)] bg-clip-text text-[3.5rem] leading-[4rem] font-normal tracking-[-0.0625rem] text-transparent">
+            <h1
+              className="bg-[radial-gradient(circle_at_25%_40%,#FFFFFF_0%,#B5B5B5_100%)] bg-clip-text text-[3.5rem] leading-[4rem] font-normal tracking-[-0.0625rem] text-transparent"
+              data-gsap-hero
+            >
               Designing Biomolecules for Therapeutic Innovation
             </h1>
-            <p className="max-w-2xl text-lg leading-7 text-white md:text-xl">
+            <p className="max-w-2xl text-lg leading-7 text-white md:text-xl" data-gsap-hero>
               Engineering peptides and proteins for therapeutic applications through the integration
               of chemistry, biology, and artificial intelligence.
             </p>
-            <div className="pt-2 md:hidden">
+            <div className="pt-2 md:hidden" data-gsap-hero>
               <PrimaryCtaButton
                 arrowClassName="h-11"
                 className="shadow-[0_0.25rem_1.25rem_rgba(0,0,0,0.12)]"
