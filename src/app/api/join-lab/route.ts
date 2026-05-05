@@ -11,7 +11,13 @@ type JoinLabPayload = {
   resumeFileName: string;
   resumeFileType: string;
   resumeFileSize: number;
+  resumeFileBase64?: string;
   submittedAt: string;
+};
+
+type AppsScriptResponse = {
+  success?: boolean;
+  message?: string;
 };
 
 const REQUIRED_FIELDS: (keyof JoinLabPayload)[] = [
@@ -24,6 +30,13 @@ const REQUIRED_FIELDS: (keyof JoinLabPayload)[] = [
   "joinReason",
 ];
 
+const MAX_RESUME_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+const ALLOWED_RESUME_TYPES = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+
 function getStringValue(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -35,6 +48,7 @@ function isValidEmail(value: string) {
 
 export async function POST(request: NextRequest) {
   const appsScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const appsScriptSecret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
 
   if (!appsScriptUrl) {
     return NextResponse.json(
@@ -43,8 +57,32 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const endpoint = new URL(appsScriptUrl);
+  if (appsScriptSecret) {
+    endpoint.searchParams.set("secret", appsScriptSecret);
+  }
+
   const formData = await request.formData();
   const resumeFile = formData.get("resume");
+  const resume = resumeFile instanceof File ? resumeFile : null;
+
+  if (resume && resume.size > MAX_RESUME_SIZE_BYTES) {
+    return NextResponse.json({ message: "Resume file must be 2MB or smaller." }, { status: 400 });
+  }
+
+  if (resume && resume.type && !ALLOWED_RESUME_TYPES.has(resume.type)) {
+    return NextResponse.json(
+      { message: "Resume must be a PDF, DOC, or DOCX file." },
+      { status: 400 }
+    );
+  }
+
+  let resumeFileBase64 = "";
+  if (resume) {
+    const bytes = new Uint8Array(await resume.arrayBuffer());
+    // Convert binary file bytes to base64 so Apps Script can reconstruct the file.
+    resumeFileBase64 = Buffer.from(bytes).toString("base64");
+  }
 
   const payload: JoinLabPayload = {
     fullName: getStringValue(formData, "fullName"),
@@ -54,9 +92,10 @@ export async function POST(request: NextRequest) {
     fieldOfStudy: getStringValue(formData, "fieldOfStudy"),
     interestReason: getStringValue(formData, "interestReason"),
     joinReason: getStringValue(formData, "joinReason"),
-    resumeFileName: resumeFile instanceof File ? resumeFile.name : "",
-    resumeFileType: resumeFile instanceof File ? resumeFile.type : "",
-    resumeFileSize: resumeFile instanceof File ? resumeFile.size : 0,
+    resumeFileName: resume ? resume.name : "",
+    resumeFileType: resume ? resume.type : "",
+    resumeFileSize: resume ? resume.size : 0,
+    resumeFileBase64: resumeFileBase64 || undefined,
     submittedAt: new Date().toISOString(),
   };
 
@@ -73,7 +112,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(appsScriptUrl, {
+    const response = await fetch(endpoint.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,13 +121,26 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(payload),
     });
 
+    const contentType = response.headers.get("content-type") ?? "";
+    let appsScriptBody: AppsScriptResponse | null = null;
+
+    if (contentType.includes("application/json")) {
+      appsScriptBody = (await response.json().catch(() => null)) as AppsScriptResponse | null;
+    }
+
     if (!response.ok) {
-      const responseText = await response.text();
       return NextResponse.json(
         {
           message: "Unable to submit your application right now.",
-          details: responseText.slice(0, 300),
+          details: appsScriptBody?.message ?? "Apps Script request failed.",
         },
+        { status: 502 }
+      );
+    }
+
+    if (appsScriptBody?.success === false) {
+      return NextResponse.json(
+        { message: appsScriptBody.message ?? "Unable to submit your application right now." },
         { status: 502 }
       );
     }

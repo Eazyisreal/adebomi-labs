@@ -31,10 +31,15 @@ export function SiteFooter() {
               />
             </Link>
             <div className="flex items-center gap-5 px-2">
-              <Link aria-label="LinkedIn" href="#">
+              <Link
+                aria-label="LinkedIn"
+                href="https://www.linkedin.com/in/victor-adebomi-408391126/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <Image alt="" aria-hidden height={24} src="/assets/icon-linkedin.svg" width={24} />
               </Link>
-              <Link aria-label="Publications" href="#">
+              <Link aria-label="Publications" href="/publications">
                 <Image
                   alt=""
                   aria-hidden

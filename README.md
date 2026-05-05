@@ -79,6 +79,7 @@ Required variables:
 - `SANITY_API_VERSION`: Sanity API version date string.
 - `SANITY_REVALIDATE_SECRET`: Shared secret used by Sanity webhook to trigger revalidation.
 - `GOOGLE_APPS_SCRIPT_URL`: Deployed Apps Script Web App URL that writes Join Lab submissions to Google Sheets.
+- `GOOGLE_APPS_SCRIPT_SECRET` (optional): Shared secret appended to Apps Script URL as `?secret=...`.
 - `SANITY_WRITE_TOKEN`: Sanity write token used for seeding initial publication documents.
 
 If Sanity variables are missing, publications gracefully fall back to local data in
@@ -115,10 +116,114 @@ Payload forwarded to Apps Script:
 - `fullName`, `email`, `institution`, `currentLevel`, `fieldOfStudy`
 - `interestReason`, `joinReason`
 - `resumeFileName`, `resumeFileType`, `resumeFileSize`
+- `resumeFileBase64` (optional; included when a file is uploaded)
 - `submittedAt` (ISO timestamp)
 
 Apps Script should append these fields as a new spreadsheet row and return a 2xx status
 for successful submissions.
+
+Suggested Google Apps Script (`doPost`) implementation:
+
+```javascript
+const SHEET_NAME = "Join Lab";
+const SECRET = PropertiesService.getScriptProperties().getProperty("JOIN_LAB_SECRET");
+
+function jsonResponse(payload) {
+  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(
+    ContentService.MimeType.JSON
+  );
+}
+
+function doPost(e) {
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return jsonResponse({ success: false, message: "Missing request body." });
+    }
+
+    const querySecret = (e.parameter && e.parameter.secret) || "";
+    if (SECRET && querySecret !== SECRET) {
+      return jsonResponse({ success: false, message: "Unauthorized request." });
+    }
+
+    const payload = JSON.parse(e.postData.contents);
+    const required = [
+      "fullName",
+      "email",
+      "institution",
+      "currentLevel",
+      "fieldOfStudy",
+      "interestReason",
+      "joinReason",
+    ];
+
+    const missing = required.filter((key) => !String(payload[key] || "").trim());
+    if (missing.length) {
+      return jsonResponse({ success: false, message: `Missing fields: ${missing.join(", ")}` });
+    }
+
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Submitted At",
+        "Full Name",
+        "Email",
+        "Institution",
+        "Current Level",
+        "Field of Study",
+        "Interest Reason",
+        "Join Reason",
+        "Resume File Name",
+        "Resume File Type",
+        "Resume File Size",
+      ]);
+    }
+
+    sheet.appendRow([
+      payload.submittedAt || new Date().toISOString(),
+      payload.fullName || "",
+      payload.email || "",
+      payload.institution || "",
+      payload.currentLevel || "",
+      payload.fieldOfStudy || "",
+      payload.interestReason || "",
+      payload.joinReason || "",
+      payload.resumeFileName || "",
+      payload.resumeFileType || "",
+      payload.resumeFileSize || 0,
+    ]);
+
+    return jsonResponse({ success: true });
+  } catch (error) {
+    return jsonResponse({ success: false, message: String(error) });
+  }
+}
+```
+
+Deployment checklist:
+
+1. Create a Google Sheet and Apps Script project bound to it.
+2. Paste the script above and set script property `JOIN_LAB_SECRET` (optional).
+3. Deploy as Web App (Execute as: you, Access: anyone with link).
+4. Set `GOOGLE_APPS_SCRIPT_URL` in your app env.
+5. If using a secret, set the same value in `GOOGLE_APPS_SCRIPT_SECRET`.
+
+If you need the actual resume file (not just metadata), decode `resumeFileBase64` in Apps Script and save to Drive:
+
+```javascript
+if (payload.resumeFileBase64) {
+  const bytes = Utilities.base64Decode(payload.resumeFileBase64);
+  const blob = Utilities.newBlob(
+    bytes,
+    payload.resumeFileType || "application/octet-stream",
+    payload.resumeFileName || "resume"
+  );
+  const file = DriveApp.createFile(blob);
+  // Optionally store file URL in your spreadsheet row:
+  // file.getUrl()
+}
+```
 
 ## Seeding Existing Publications to Sanity
 
